@@ -8,3 +8,6 @@ When you search you will recive the temperature, humidity, and wind speed.
 
 Moving forward I will add more CSS, and the save search feature. 
 
+
+![screenshot](.//assets/screenshot.png)
+
