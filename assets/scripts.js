@@ -3,8 +3,9 @@ $(document).ready(function () {
     var searhHistoryContainer = $('#past-searches');
     var searchForm = $('#search-form');
     var currentWeatherContainer = $('#current-weather');
-    var searchForFiveDayForecastWeather = $('#five-day-forecast');
+    var FiveDayForecastContainer = $('#five-day-forecast');
     var apiKey = 'e7ef451762216c94d54aba8f75ac1dd2';
+    var apiKey2 = '9fea21d9bfdde421a220b6aea34ade11';
     var baseUrl = 'http://api.openweathermap.org/data/2.5/weather?';
     var baseUrl2 = 'http://api.openweathermap.org/data/2.5/forecast?';
 
@@ -22,7 +23,7 @@ $(document).ready(function () {
         console.log(formValues, city);
 
         searchFormCityWeather(city);
-
+        searchForFiveDayForecastWeather(city);
     });
     function searchFormCityWeather(city) {
         var fullUrl = baseUrl + "q=" + city + "&appid=" + apiKey;
@@ -34,7 +35,7 @@ $(document).ready(function () {
             .then(function (data) {
                 console.log(data);
                 var cityName = data.name;
-                var temp = data.main.temp;
+                var temp = ((data.main.temp- 273.15) * 1.80 + 32 );
                 var humidity = data.main.humidity;
                 var weather = data.weather;
                 var wind = data.wind;
@@ -55,28 +56,28 @@ $(document).ready(function () {
                 currentWeatherContainer.append(weatherDiv);
 
 
-
+        
                 //currentWeatherContainer
             });
-
-    }
+        
+            }
     function searchForFiveDayForecastWeather(city) {
-        var forecastUrl = baseUrl2 + "q=" + city + "appid=" + apiKey;
+        var forecastUrl = baseUrl2 + "q=" + city + "&appid=" + apiKey;
         fetch(forecastUrl).then(function (responseFromOpenWeatherMapUnProcessed) {
             return responseFromOpenWeatherMapUnProcessed.json()
         }).then(function (data) {
             console.log('Five Day Forecast', data);
             for (var i = 0; i < data.list.length; i++) {
-                var isThreeOClock = data.list[i].dt_text.search('15:00:00');
+                var isThreeOClock = data.list[i].dt_txt.search('15:00:00');
 
                 var cityName = data.city.name;
                 if (isThreeOClock > -1) {
                     var forecast = data.list[i];
-                    var temp = forcast.main.temp;
+                    var temp = ((forecast.main.temp  - 273.15) * 1.80 + 32 );
                     var humidity = forecast.main.humidity;
                     var weather = forecast.weather;
                     var wind = forecast.wind;
-                    var day = moment(forecast.dt_text).format('dddd, MMMM Do');
+                    var day = moment(forecast.dt_txt).format('dddd, MMMM Do');
 
                     console.log(forecast, temp, humidity, weather, wind, cityName);
                     var dayDiv = $("<div class='day-name'>");
@@ -89,17 +90,15 @@ $(document).ready(function () {
                     humidityDiv.text(" Humidity: " + humidity + " %");
                     windDiv.text("Wind Speed: " + wind.speed + " MPH");
                     FiveDayForecastContainer.append(dayDiv);
-                    FiveDayForecastContainer.append(tempDiv);
+                    FiveDayForecastContainer.append(tempDiv) ;
                     FiveDayForecastContainer.append(humidityDiv);
                     FiveDayForecastContainer.append(windDiv);
-                }
+                
             
-
-
-            }
-        });
-
-                  
-    }      
-       
-});
+                 }
+             
+                } 
+                
+        });  
+    }    
+}); 
