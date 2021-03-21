@@ -6,8 +6,8 @@ $(document).ready(function () {
     var FiveDayForecastContainer = $('#five-day-forecast');
     var apiKey = 'e7ef451762216c94d54aba8f75ac1dd2';
     var apiKey2 = '9fea21d9bfdde421a220b6aea34ade11';
-    var baseUrl = 'http://api.openweathermap.org/data/2.5/weather?';
-    var baseUrl2 = 'http://api.openweathermap.org/data/2.5/forecast?';
+    var baseUrl = 'https://api.openweathermap.org/data/2.5/weather?';
+    var baseUrl2 = 'https://api.openweathermap.org/data/2.5/forecast?';
 
 
     searchForm.submit(function (event) {
